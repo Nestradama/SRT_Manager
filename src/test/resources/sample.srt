@@ -1,0 +1,64 @@
+1
+00:00:01,000 --> 00:00:04,500
+ASCII & Basic Punctuation:
+The quick brown fox jumps over the lazy dog! (1234567890) #$%^&*~
+
+2
+00:00:05,000 --> 00:00:08,200
+Western European (Diacritics & Accents):
+Hélène a mangé des crêpes à Noël près de l'océan déjà gelé.
+Übergrößenträger müssen für Süßigkeiten büßen.
+
+3
+00:00:08,500 --> 00:00:12,000
+Spanish & Portuguese (Inverted marks, cedilla, tildes):
+¿Cómo estás? ¡Muy bien, señor! São Paulo é uma cidade não tão fácil.
+
+4
+00:00:12,500 --> 00:00:16,000
+Cyrillic & Greek:
+Привет, мир! Это тестовая строка на русском языке.
+Καλημέρα κόσμε! Ελληνικό κείμενο για έλεγχο κωδικοποίησης.
+
+5
+00:00:16,500 --> 00:00:20,000
+CJK (East Asian Languages):
+中文：这是一段用来测试字符集编码的字幕。
+日本語：これは字幕の文字コードテスト用文章です。
+한국어: 이 자막은 인코딩 테스트를 위한 문장입니다.
+
+6
+00:00:20,500 --> 00:00:24,000
+RTL (Right-to-Left Scripts & BiDi):
+العربية: هذا نص تجريبي لاختبار اتجاه الكتابة والتشفير.
+עברית: זוהי שורת בדיקה לבדיקת קידוד עברי.
+
+7
+00:00:24,500 --> 00:00:28,000
+HTML Styling Tags:
+<b>Bold text</b>, <i>Italic text</i>, <u>Underlined</u>, and <s>Strikethrough</s>.
+<font color="#FF0000">Red font color</font> and <font color="cyan">Cyan</font>.
+
+8
+00:00:28,500 --> 00:00:32,000
+Multi-line Layout & Positioning Tags:
+{\an8}Top-center positioned line
+Line 1: Left
+Line 2: Middle
+Line 3: Bottom edge
+
+9
+00:00:32,500 --> 00:00:36,000
+Symbols, Math, Currency & Emojis:
+€ £ ¥ $ ₹ ¢ • © ® ™ ° ± ≠ ≈ ∞ √
+Unicode Emojis: 🎬 🍿 🚀 ⚠️ 🌍 🤖 ☕
+
+10
+00:00:36,500 --> 00:00:38,000
+XML Entities & Escaping:
+&amp; &lt; &gt; &quot; &apos; &nbsp;
+
+11
+01:59:59,999 --> 02:00:02,001
+Edge Case Timestamp (>1 hour boundary):
+End of encoding test stream.
