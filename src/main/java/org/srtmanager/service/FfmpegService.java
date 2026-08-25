@@ -7,6 +7,8 @@ import org.srtmanager.util.FfmpegPaths;
 import org.srtmanager.util.FileUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,18 +76,49 @@ public class FfmpegService {
             JsonNode streamsFound = mapper.readTree(foundSubtitles);
             JsonNode streams = streamsFound.path("streams");
             List<SubtitleTrack> subtitles = new ArrayList<>();
+            int subtitleIndex = 0;
             for (JsonNode stream : streams) {
                 if (stream.path("codec_type").asText().equals("subtitle")) {
                     SubtitleTrack subtitleTrack = new SubtitleTrack(
-                            stream.path("index").asInt(),
+                            subtitleIndex,
                             stream.path("codec_name").asText(),
                             stream.path("tags").path("language").asText(),
                             stream.path("tags").path("title").asText()
                     );
                     subtitles.add(subtitleTrack);
+                    subtitleIndex++;
                 }
             }
             return subtitles;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static double getDuration(String videoPath){
+        try {
+            Process ffprobe = new ProcessBuilder(FfmpegPaths.ffprobePath(), "-v", "error", "-print_format", "json", "-show_entries", "format=duration", videoPath).start();
+            String foundDuration = new String(ffprobe.getInputStream().readAllBytes());
+            ffprobe.waitFor();
+            JsonNode durationFound = mapper.readTree(foundDuration);
+
+            return Double.parseDouble(durationFound.path("format").path("duration").asText());
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static String extractEmbeddedTrack(String videoPath, int index){
+
+        try {
+            Path tempfile = Files.createTempFile("",".srt");
+
+            Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-y", "-i", videoPath, "-map", "0:s:"+index, "-c:s", "srt", tempfile.toString()).start();
+            ffmpeg.waitFor();
+
+            return tempfile.toString();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
