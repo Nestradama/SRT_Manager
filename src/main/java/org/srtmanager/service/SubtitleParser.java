@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.nio.file.Files;
+import java.util.Objects;
 
 public class SubtitleParser {
     public static List<SubtitleEntry> parseSrtFile(String fp) {
@@ -26,7 +27,7 @@ public class SubtitleParser {
             System.out.println(e);
         }
 
-        for (String line : fileContent) {
+        for (String line : Objects.requireNonNull(fileContent)) {
             if (line.contains("-->")) {
                 entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[0]));
                 entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[1]));
