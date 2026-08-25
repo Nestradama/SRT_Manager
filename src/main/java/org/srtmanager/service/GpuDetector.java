@@ -1,6 +1,7 @@
 package org.srtmanager.service;
 
 import org.srtmanager.model.GpuEncoder;
+import org.srtmanager.util.FfmpegPaths;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GpuDetector {
 
     public static List<GpuEncoder> detect() {
         try {
-            Process ffmpeg = new ProcessBuilder("src/main/resources/ffmpeg/ffmpeg.exe", "-encoders").start();
+            Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-encoders").start();
             String foundEncoder = new String(ffmpeg.getInputStream().readAllBytes());
             ffmpeg.waitFor();
             List<GpuEncoder> encoders = getGpuEncoders(foundEncoder);
