@@ -95,7 +95,7 @@ public class FfmpegService {
         }
     }
 
-    public static double getDuration(String videoPath){
+    public static double getDuration(String videoPath) {
         try {
             Process ffprobe = new ProcessBuilder(FfmpegPaths.ffprobePath(), "-v", "error", "-print_format", "json", "-show_entries", "format=duration", videoPath).start();
             String foundDuration = new String(ffprobe.getInputStream().readAllBytes());
@@ -110,12 +110,31 @@ public class FfmpegService {
 
     }
 
-    public static String extractEmbeddedTrack(String videoPath, int index){
+    public static String extractEmbeddedTrack(String videoPath, int index) {
 
         try {
-            Path tempfile = Files.createTempFile("",".srt");
+            Path tempfile = Files.createTempFile("", ".srt");
 
-            Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-y", "-i", videoPath, "-map", "0:s:"+index, "-c:s", "srt", tempfile.toString()).start();
+            Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-y", "-i", videoPath,
+                    "-map", "0:s:" + index, "-c:s", "srt", tempfile.toString()).redirectErrorStream(true).start();
+            ffmpeg.getInputStream().readAllBytes();
+            ffmpeg.waitFor();
+
+            return tempfile.toString();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String extractPreviewFrame(String videoPath, String srtPath, double timestampSeconds, int fontSize, int marginFromBottom) {
+        try {
+            Path tempfile = Files.createTempFile("", ".png");
+
+            Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-y", "-ss",
+                    String.valueOf(timestampSeconds), "-i", videoPath, "-vf",
+                    "subtitles='" + srtPath + "':force_style='FontSize=" + fontSize + ",MarginV=" + marginFromBottom + "',format=yuv420p",
+                    "-copyts", "-frames:v", "1", tempfile.toString()).redirectErrorStream(true).start();
+            ffmpeg.getInputStream().readAllBytes();
             ffmpeg.waitFor();
 
             return tempfile.toString();
