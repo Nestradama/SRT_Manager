@@ -3,6 +3,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.srtmanager.model.SubtitleTrack;
 
 public class FfmpegServiceTest {
     @Test
@@ -40,5 +41,13 @@ public class FfmpegServiceTest {
                 "-map", "0",
                 "-map", "1",
                 "C:/videos/test-subbed.mp4");
+    }
+
+    @Test
+    void detectSubtitles(){
+        List<SubtitleTrack> tracks = FfmpegService.detectSubtitles("MockSources/video_with_subs.mp4");
+        assertThat(tracks).hasSize(1);
+        assertThat(tracks.getFirst().codec()).isEqualTo("mov_text");
+        assertThat(tracks.getFirst().index()).isEqualTo(1);
     }
 }

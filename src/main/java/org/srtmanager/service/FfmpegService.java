@@ -1,12 +1,19 @@
 package org.srtmanager.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.srtmanager.model.SubtitleTrack;
+import org.srtmanager.util.FfmpegPaths;
 import org.srtmanager.util.FileUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class FfmpegService {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static List<String> buildHardcodeCommand(String videoPath, String srtPath,
                                                     String encoderId, int fontSize, int marginV) {
@@ -58,4 +65,29 @@ public class FfmpegService {
         return softcodeCommand;
     }
 
+
+    public static List<SubtitleTrack> detectSubtitles(String videoPath) {
+        try {
+            Process ffprobe = new ProcessBuilder(FfmpegPaths.ffprobePath(), "-v", "error", "-print_format", "json", "-show_streams", videoPath).start();
+            String foundSubtitles = new String(ffprobe.getInputStream().readAllBytes());
+            ffprobe.waitFor();
+            JsonNode streamsFound = mapper.readTree(foundSubtitles);
+            JsonNode streams = streamsFound.path("streams");
+            List<SubtitleTrack> subtitles = new ArrayList<>();
+            for (JsonNode stream : streams) {
+                if (stream.path("codec_type").asText().equals("subtitle")) {
+                    SubtitleTrack subtitleTrack = new SubtitleTrack(
+                            stream.path("index").asInt(),
+                            stream.path("codec_name").asText(),
+                            stream.path("tags").path("language").asText(),
+                            stream.path("tags").path("title").asText()
+                    );
+                    subtitles.add(subtitleTrack);
+                }
+            }
+            return subtitles;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
