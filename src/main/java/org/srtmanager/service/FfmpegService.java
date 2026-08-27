@@ -21,7 +21,7 @@ public class FfmpegService {
                                                     String encoderId, int fontSize, int marginV) {
         List<String> hardcodeCommand = new ArrayList<>();
 
-        hardcodeCommand.add("ffmpeg");
+        hardcodeCommand.add(FfmpegPaths.ffmpegPath());
         hardcodeCommand.add("-y");
 
         hardcodeCommand.add("-i");
@@ -45,7 +45,7 @@ public class FfmpegService {
     public static List<String> buildSoftcodeCommand(String videoPath, String srtPath) {
         List<String> softcodeCommand = new ArrayList<>();
 
-        softcodeCommand.add("ffmpeg");
+        softcodeCommand.add(FfmpegPaths.ffmpegPath());
         softcodeCommand.add("-y");
 
         softcodeCommand.add("-i");

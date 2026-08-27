@@ -1,5 +1,7 @@
 package org.srtmanager.util;
 
+import java.util.regex.Pattern;
+
 public class TimeUtils {
     public static String toSrtTimestamp(double secondsTime) {
         int hours = (int) (secondsTime / 3600);
@@ -11,19 +13,28 @@ public class TimeUtils {
     }
 
     public static double fromSrtTimestamp(String srtTimestamp) {
+        return fromSrtTimestamp(srtTimestamp,",");
+    }
 
-            String[] timestampArray = srtTimestamp.split("[:,]");
-            int arrayLength = timestampArray.length;
-            if (arrayLength == 4){
-                    double hours = Double.parseDouble(timestampArray[0]) * 3600;
-                    double minutes = Double.parseDouble(timestampArray[1]) * 60;
-                    double seconds = Double.parseDouble(timestampArray[2]);
-                    double milliseconds = Double.parseDouble(timestampArray[3]) / 1000.0;
-                    return (hours + minutes + seconds + milliseconds);
+    public static double fromSrtTimestamp(String srtTimestamp, String separatorMs) {
 
-            } else{throw new IllegalArgumentException("The timestamp is invalid");}
+        String regex = ":" + Pattern.quote(separatorMs);
+        String[] timestampArray = srtTimestamp.split("[" + regex + "]");
+        int arrayLength = timestampArray.length;
+        if (arrayLength == 4) {
+            double hours = Double.parseDouble(timestampArray[0]) * 3600;
+            double minutes = Double.parseDouble(timestampArray[1]) * 60;
+            double seconds = Double.parseDouble(timestampArray[2]);
+            StringBuilder millisecondsString = new StringBuilder(timestampArray[3]);
+            while(millisecondsString.length()<3){
+                millisecondsString.append("0");
+            }
+            double milliseconds = Double.parseDouble(millisecondsString.toString()) / 1000;
+            return (hours + minutes + seconds + milliseconds);
 
-
+        } else {
+            throw new IllegalArgumentException("The timestamp is invalid");
+        }
 
 
     }

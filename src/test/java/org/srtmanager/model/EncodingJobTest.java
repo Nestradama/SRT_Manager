@@ -37,6 +37,5 @@ public class EncodingJobTest {
         public void onStatusChanged(String status){
             recordedStatus = status;
         }
-
     }
 }

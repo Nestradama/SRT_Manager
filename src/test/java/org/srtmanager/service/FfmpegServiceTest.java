@@ -14,6 +14,7 @@ import java.util.Arrays;
 import org.assertj.core.internal.Bytes;
 import org.junit.jupiter.api.Test;
 import org.srtmanager.model.SubtitleTrack;
+import org.srtmanager.util.FfmpegPaths;
 
 public class FfmpegServiceTest {
     @Test
@@ -26,7 +27,7 @@ public class FfmpegServiceTest {
 
         List<String> result = FfmpegService.buildHardcodeCommand(video, srt, encoder, fontSize, marginV);
 
-        assertThat(result).containsExactly("ffmpeg",
+        assertThat(result).containsExactly(FfmpegPaths.ffmpegPath(),
                 "-y",
                 "-i", "C:/videos/test.mp4",
                 "-vf", "subtitles='C:/subtitles/test.srt':force_style='FontSize=18,MarginV=24',format=yuv420p",
@@ -42,7 +43,7 @@ public class FfmpegServiceTest {
 
         List<String> result = FfmpegService.buildSoftcodeCommand(video, srt);
 
-        assertThat(result).containsExactly("ffmpeg",
+        assertThat(result).containsExactly(FfmpegPaths.ffmpegPath(),
                 "-y",
                 "-i", "C:/videos/test.mp4",
                 "-i", "C:/subtitles/test.srt",

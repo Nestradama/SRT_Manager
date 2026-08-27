@@ -2,6 +2,7 @@ package org.srtmanager.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.junit.jupiter.api.Test;
 
 public class TimeUtilsTest {
@@ -63,9 +64,17 @@ public class TimeUtilsTest {
     void fromSrtFormatComplex() {
         assertThat(TimeUtils.fromSrtTimestamp("02:25:50,300")).isEqualTo(8750.3);
     }
+
+    @Test
+    void fromSrtDifferentSeparator(){
+        assertThat(TimeUtils.fromSrtTimestamp("02:25:50.300", ".")).isEqualTo(8750.3);
+
+    }
+
     
     @Test
-    void fromSrtFailure(){
+    void fromSrtFailure() {
         assertThatThrownBy(() -> TimeUtils.fromSrtTimestamp("Banana")).isInstanceOf(IllegalArgumentException.class);
     }
+
 }

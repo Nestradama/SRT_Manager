@@ -29,8 +29,8 @@ public class SubtitleParser {
 
         for (String line : Objects.requireNonNull(fileContent)) {
             if (line.contains("-->")) {
-                entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[0]));
-                entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[1]));
+                entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[0],","));
+                entryTimestamps.add(TimeUtils.fromSrtTimestamp(line.split(" --> ")[1],","));
                 constructionFlag = true;
             } else if (!line.isBlank() && constructionFlag) {
                 entryContent.add(line);
