@@ -17,6 +17,16 @@ import org.srtmanager.model.SubtitleTrack;
 import org.srtmanager.util.FfmpegPaths;
 
 public class FfmpegServiceTest {
+
+    @Test
+    void buildHardcodeCommandWithWindowsPath() {
+        String video = "C:/videos/test.mp4";
+        String srt = "C:\\Users\\Me\\Subtitles\\test.srt";
+        List<String> result = FfmpegService.buildHardcodeCommand(video, srt, "libx264", 18, 24);
+
+        assertThat(result).contains("subtitles='C\\:/Users/Me/Subtitles/test.srt':force_style='FontSize=18,MarginV=24',format=yuv420p");
+    }
+
     @Test
     void buildHardcodeCommand() {
         String video = "C:/videos/test.mp4";
@@ -30,7 +40,7 @@ public class FfmpegServiceTest {
         assertThat(result).containsExactly(FfmpegPaths.ffmpegPath(),
                 "-y",
                 "-i", "C:/videos/test.mp4",
-                "-vf", "subtitles='C:/subtitles/test.srt':force_style='FontSize=18,MarginV=24',format=yuv420p",
+                "-vf", "subtitles='C\\:/subtitles/test.srt':force_style='FontSize=18,MarginV=24',format=yuv420p",
                 "-c:v", "libx264",
                 "-c:a", "copy",
                 "C:/videos/test-subbed.mp4");

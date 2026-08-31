@@ -27,8 +27,10 @@ public class FfmpegService {
         hardcodeCommand.add("-i");
         hardcodeCommand.add(videoPath);
 
+        String escapedSrt = srtPath.replace("\\", "/").replace(":", "\\:");
+
         hardcodeCommand.add("-vf");
-        hardcodeCommand.add("subtitles='" + srtPath + "':force_style='FontSize=" + fontSize +
+        hardcodeCommand.add("subtitles='" + escapedSrt + "':force_style='FontSize=" + fontSize +
                 ",MarginV=" + marginV + "',format=yuv420p");
 
         hardcodeCommand.add("-c:v");
