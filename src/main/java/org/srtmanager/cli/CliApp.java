@@ -124,6 +124,7 @@ public class CliApp {
 
                     System.out.println("Do you wish to proceed with those settings: \n" +
                             "Video path:" + videoPath + "\n" +
+                            "SRT path:" + srtPath + "\n" +
                             "Encoder:" + selectedEncoder + "\n" +
                             "Font size:" + fontSize + "\n" +
                             "Margin:" + marginV + "\n" +

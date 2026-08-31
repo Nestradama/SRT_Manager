@@ -43,11 +43,27 @@ public class GpuDetector {
         List<GpuEncoder> all = detect();
         List<GpuEncoder> usable = new ArrayList<>();
         for (GpuEncoder encoder : all) {
-            if (USABLE_ENCODERS.contains(encoder.id())) {
+            if (USABLE_ENCODERS.contains(encoder.id()) && canEncode(encoder.id())) {
                 usable.add(encoder);
             }
         }
         return usable;
+    }
+
+    
+    private static boolean canEncode(String encoderId) {
+        try {
+            Process probe = new ProcessBuilder(
+                    FfmpegPaths.ffmpegPath(),
+                    "-f", "lavfi", "-i", "color=s=64x64:d=0.1",
+                    "-c:v", encoderId,
+                    "-f", "null", "-")
+                    .redirectErrorStream(true).start();
+            probe.getInputStream().readAllBytes();
+            return probe.waitFor() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 
     private static List<GpuEncoder> getGpuEncoders(String foundEncoder) {
