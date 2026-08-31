@@ -17,6 +17,14 @@ public class GpuDetector {
             "videotoolbox" 
     );
 
+    
+    private static final List<String> USABLE_ENCODERS = List.of(
+            "libx264", "libx265",
+            "h264_nvenc", "h264_qsv", "h264_amf",
+            "hevc_nvenc", "hevc_qsv", "hevc_amf",
+            "av1_nvenc", "av1_qsv", "av1_amf"
+    );
+
     public static List<GpuEncoder> detect() {
         try {
             Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-encoders").start();
@@ -28,6 +36,18 @@ public class GpuDetector {
             throw new RuntimeException("ffmpeg failed: "+ e.getMessage(), e);
         }
 
+    }
+
+    
+    public static List<GpuEncoder> detectUsable() {
+        List<GpuEncoder> all = detect();
+        List<GpuEncoder> usable = new ArrayList<>();
+        for (GpuEncoder encoder : all) {
+            if (USABLE_ENCODERS.contains(encoder.id())) {
+                usable.add(encoder);
+            }
+        }
+        return usable;
     }
 
     private static List<GpuEncoder> getGpuEncoders(String foundEncoder) {

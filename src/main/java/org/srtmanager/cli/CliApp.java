@@ -88,10 +88,11 @@ public class CliApp {
 
                 case "5":
                     if (isValidPath(videoPath) && isValidPath(srtPath)) {
-                        List<GpuEncoder> encoders = GpuDetector.detect();
+                        List<GpuEncoder> encoders = GpuDetector.detectUsable();
                         System.out.println("Please choose your encoder");
                         for (int i = 1; i < encoders.size() + 1; i++) {
-                            System.out.println(String.valueOf(i) + encoders.get(i - 1));
+                            GpuEncoder encoder = encoders.get(i - 1);
+                            System.out.println(i + ". " + encoder.id() + (encoder.isGpu() ? " (GPU)" : ""));
                         }
                         selectedEncoder = encoders.get(scanner.nextInt() - 1).id();
                         scanner.nextLine();

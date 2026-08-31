@@ -14,4 +14,12 @@ public class GpuDetectorTest {
         assertThat(result).extracting(GpuEncoder::id).contains("libx264");
         assertThat(result).filteredOn(GpuEncoder::id, "libx264").extracting(GpuEncoder::isGpu).containsOnly(false);
     }
+
+    @Test
+    void detectUsable(){
+        List<GpuEncoder> result = GpuDetector.detectUsable();
+        assertThat(result).isNotEmpty();
+        assertThat(result).extracting(GpuEncoder::id).contains("libx264");
+        assertThat(result).extracting(GpuEncoder::id).doesNotContain("zmbv", "a64multi");
+    }
 }
