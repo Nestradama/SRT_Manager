@@ -30,8 +30,7 @@ public class FfmpegService {
         String escapedSrt = srtPath.replace("\\", "/").replace(":", "\\:");
 
         hardcodeCommand.add("-vf");
-        hardcodeCommand.add("subtitles='" + escapedSrt + "':force_style='FontSize=" + fontSize +
-                ",MarginV=" + marginV + "',format=yuv420p");
+        hardcodeCommand.add(buildSubtitleFilter(escapedSrt, fontSize, marginV));
 
         hardcodeCommand.add("-c:v");
         hardcodeCommand.add(encoderId);
@@ -131,10 +130,11 @@ public class FfmpegService {
     public static String extractPreviewFrame(String videoPath, String srtPath, double timestampSeconds, int fontSize, int marginFromBottom) {
         try {
             Path tempfile = Files.createTempFile("", ".png");
+            String escapedSrt = srtPath.replace("\\", "/").replace(":", "\\:");
 
             Process ffmpeg = new ProcessBuilder(FfmpegPaths.ffmpegPath(), "-y", "-ss",
                     String.valueOf(timestampSeconds), "-i", videoPath, "-vf",
-                    "subtitles='" + srtPath + "':force_style='FontSize=" + fontSize + ",MarginV=" + marginFromBottom + "',format=yuv420p",
+                    buildSubtitleFilter(escapedSrt, fontSize, marginFromBottom),
                     "-copyts", "-frames:v", "1", tempfile.toString()).redirectErrorStream(true).start();
             ffmpeg.getInputStream().readAllBytes();
             ffmpeg.waitFor();
@@ -143,5 +143,11 @@ public class FfmpegService {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    
+    private static String buildSubtitleFilter(String escapedSrt, int fontSize, int marginFromBottom) {
+        return "subtitles='" + escapedSrt + "':force_style='FontSize=" + fontSize +
+                ",MarginV=" + marginFromBottom + "',format=yuv420p";
     }
 }
