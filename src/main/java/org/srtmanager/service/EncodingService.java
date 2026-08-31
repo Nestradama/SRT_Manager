@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EncodingService {
-    static void run(List<String> command, EncodingJob encodingJob, double videoDuration) {
+    public static void run(List<String> command, EncodingJob encodingJob, double videoDuration) {
         encodingJob.setStatus("running");
 
         try {
@@ -26,7 +26,7 @@ public class EncodingService {
                 }
             }
             int valueReturn = ffmpeg.waitFor();
-            if (valueReturn == 0){
+            if (valueReturn == 0) {
                 encodingJob.setStatus("done");
             } else {
                 throw new RuntimeException("Ffmpeg was unable to finish the job. exit code " + valueReturn);
