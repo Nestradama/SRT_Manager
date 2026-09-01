@@ -49,6 +49,7 @@ public class MainController implements EncodingJobListener {
         bindSliderToLabel(fontSlider, fontValueLabel);
         bindSliderToLabel(marginSlider, marginValueLabel);
         softcodeRadio.setDisable(tracksList.getItems().isEmpty());
+        configureEncoderDisplay();
 
         
         Thread encoders = new Thread(() -> {
@@ -75,6 +76,13 @@ public class MainController implements EncodingJobListener {
     private static void bindSliderToLabel(Slider slider, Label label) {
         slider.valueProperty().addListener((obs, oldVal, newVal) ->
                 label.setText(String.valueOf(newVal.intValue())));
+    }
+
+    private void configureEncoderDisplay() {
+        encoderBox.setConverter(new javafx.util.StringConverter<GpuEncoder>() {
+            @Override public String toString(GpuEncoder encoder) { return encoder == null ? null : encoder.displayName(); }
+            @Override public GpuEncoder fromString(String s) { return null; }
+        });
     }
 
     @FXML
