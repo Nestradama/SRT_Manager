@@ -1,0 +1,182 @@
+.root {
+    -fx-padding: 16px;
+    -fx-font-family: "Segoe UI", "Inter", "Helvetica Neue", sans-serif;
+    -fx-font-size: 12px;
+    -fx-background-color: #ffffff;
+}
+
+.app-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1a1a1a;
+}
+
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 2px;
+    -fx-padding: 12px;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 2px;
+    -fx-border-width: 1px;
+}
+
+.preview {
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-background-color: #111111;
+    -fx-background-radius: 0px;
+}
+
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 1px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-padding: 4px 6px;
+    -fx-text-fill: #1a1a1a;
+}
+
+.text-field:focused {
+    -fx-border-color: #8a8a8a;
+}
+
+
+.button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 1px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-text-fill: #1a1a1a;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-effect: null;
+}
+
+.button:hover {
+    -fx-background-color: #f2f2f2;
+}
+
+.button:pressed {
+    -fx-background-color: #e8e8e8;
+}
+
+
+.resize-btn {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 1px;
+    -fx-text-fill: #4a4a4a;
+    -fx-padding: 3px 10px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-effect: null;
+}
+
+.resize-btn:selected {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #1a1a1a;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: normal;
+}
+
+
+.primary-btn {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #1a1a1a;
+    -fx-border-width: 1px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 500;
+    -fx-padding: 7px 16px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-effect: null;
+}
+
+.primary-btn:hover {
+    -fx-background-color: #333333;
+}
+
+.primary-btn:pressed {
+    -fx-background-color: #000000;
+}
+
+
+.slider .track {
+    -fx-background-color: #dcdcdc;
+    -fx-background-radius: 1px;
+    -fx-pref-height: 3px;
+}
+
+.slider .thumb {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 8px;
+    -fx-effect: null;
+}
+
+#fontValueLabel, #marginValueLabel {
+    -fx-min-width: 26px;
+    -fx-text-fill: #4a4a4a;
+    -fx-font-weight: normal;
+    -fx-alignment: center;
+}
+
+
+.label {
+    -fx-text-fill: #4a4a4a;
+}
+
+
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1a1a1a;
+    -fx-padding: 3px 6px;
+}
+
+.list-cell:selected {
+    -fx-background-color: #eeeeee;
+    -fx-text-fill: #1a1a1a;
+}
+
+
+.progress-bar .track {
+    -fx-background-color: #eaeaea;
+    -fx-background-radius: 1px;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 1px;
+    -fx-effect: null;
+    -fx-padding: 3px;
+}
+
+
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfcfcf;
+    -fx-border-width: 1px;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+}
+
+
+.radio-button .radio {
+    -fx-border-color: #8a8a8a;
+    -fx-background-color: #ffffff;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #1a1a1a;
+}

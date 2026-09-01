@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.srtmanager.ui.MainController" spacing="8" id="rootPane">
+
+    <fx:define>
+        <ToggleGroup fx:id="resizeGroup"/>
+    </fx:define>
+
+    
+    <VBox styleClass="card" spacing="5">
+        <HBox spacing="6">
+            <TextField fx:id="videoField" editable="false" promptText="No video selected" HBox.hgrow="ALWAYS"/>
+            <Button text="Choose video" onAction="#onBrowseVideo"/>
+        </HBox>
+        <ListView fx:id="tracksList" prefHeight="70"/>
+        <Button text="Use selected embedded track" onAction="#onUseEmbeddedTrack"/>
+    </VBox>
+
+    
+    <VBox styleClass="card" spacing="5">
+        <HBox spacing="6">
+            <TextField fx:id="srtField" editable="false" promptText="No subtitle file selected" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="browseSrtButton" text="Choose SRT" onAction="#onBrowseSrt"/>
+        </HBox>
+        <HBox spacing="14">
+            <RadioButton fx:id="softcodeRadio" text="Softcode"/>
+            <RadioButton fx:id="hardcodeRadio" text="Hardcode" selected="true"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label text="Preview at second:"/>
+            <TextField fx:id="previewSecondField" prefColumnCount="5" text="1"/>
+            <Button text="Preview" onAction="#onPreview"/>
+        </HBox>
+        <ImageView fx:id="previewImage" fitWidth="200" fitHeight="90" preserveRatio="true"
+                   styleClass="preview"/>
+    </VBox>
+
+    
+    <VBox fx:id="settingsPane" styleClass="card" spacing="5">
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label text="Encoder:"/>
+            <ComboBox fx:id="encoderBox" prefWidth="200" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Font size:"/>
+            <Slider fx:id="fontSlider" min="8" max="48" value="16" blockIncrement="1" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="fontValueLabel" text="16"/>
+        </HBox>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Bottom margin:"/>
+            <Slider fx:id="marginSlider" min="0" max="100" value="10" blockIncrement="1" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="marginValueLabel" text="10"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label text="Resize:"/>
+            <ToggleButton text="Orig" onAction="#onResize" styleClass="resize-btn" toggleGroup="$resizeGroup" selected="true"/>
+            <ToggleButton text="1080p" onAction="#onResize" styleClass="resize-btn" toggleGroup="$resizeGroup"/>
+            <ToggleButton text="720p" onAction="#onResize" styleClass="resize-btn" toggleGroup="$resizeGroup"/>
+            <ToggleButton text="480p" onAction="#onResize" styleClass="resize-btn" toggleGroup="$resizeGroup"/>
+            <ToggleButton text="360p" onAction="#onResize" styleClass="resize-btn" toggleGroup="$resizeGroup"/>
+        </HBox>
+    </VBox>
+
+    
+    <ProgressBar fx:id="progressBar" progress="0"/>
+    <Label fx:id="statusLabel" text="Idle"/>
+    <Button text="Add the subtitle" onAction="#onEncode" styleClass="primary-btn"/>
+
+</VBox>
