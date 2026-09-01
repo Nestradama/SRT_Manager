@@ -47,6 +47,39 @@ public class FfmpegServiceTest {
     }
 
     @Test
+    void buildHardcodeCommandWithResize() {
+        String video = "C:/videos/test.mp4";
+        String srt = "C:/subtitles/test.srt";
+        String encoder = "libx264";
+        int fontSize = 18;
+        int marginV = 24;
+
+        List<String> result = FfmpegService.buildHardcodeCommand(video, srt, encoder, fontSize, marginV, 1280, 720);
+
+        assertThat(result).containsExactly(FfmpegPaths.ffmpegPath(),
+                "-y",
+                "-i", "C:/videos/test.mp4",
+                "-vf", "scale=1280:720:force_original_aspect_ratio=decrease,"
+                        + "pad=1280:720:(ow-iw)/2:(oh-ih)/2,"
+                        + "subtitles='C\\:/subtitles/test.srt':force_style='FontSize=18,MarginV=24',format=yuv420p",
+                "-c:v", "libx264",
+                "-c:a", "copy",
+                "C:/videos/test-subbed.mp4");
+    }
+
+    @Test
+    void buildHardcodeCommandWithZeroResizeFallsBackToOriginal() {
+        String video = "C:/videos/test.mp4";
+        String srt = "C:/subtitles/test.srt";
+
+        
+        List<String> resized = FfmpegService.buildHardcodeCommand(video, srt, "libx264", 18, 24, 0, 0);
+        List<String> plain = FfmpegService.buildHardcodeCommand(video, srt, "libx264", 18, 24);
+
+        assertThat(resized).isEqualTo(plain);
+    }
+
+    @Test
     void buildSoftcodeCommand() {
         String video = "C:/videos/test.mp4";
         String srt = "C:/subtitles/test.srt";

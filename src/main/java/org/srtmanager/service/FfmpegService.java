@@ -19,6 +19,13 @@ public class FfmpegService {
 
     public static List<String> buildHardcodeCommand(String videoPath, String srtPath,
                                                     String encoderId, int fontSize, int marginV) {
+        return buildHardcodeCommand(videoPath, srtPath, encoderId, fontSize, marginV, 0, 0);
+    }
+
+    
+    public static List<String> buildHardcodeCommand(String videoPath, String srtPath,
+                                                    String encoderId, int fontSize, int marginV,
+                                                    int width, int height) {
         List<String> hardcodeCommand = new ArrayList<>();
 
         hardcodeCommand.add(FfmpegPaths.ffmpegPath());
@@ -28,9 +35,14 @@ public class FfmpegService {
         hardcodeCommand.add(videoPath);
 
         String escapedSrt = srtPath.replace("\\", "/").replace(":", "\\:");
+        String filters = (width > 0 && height > 0)
+                ? "scale=" + width + ":" + height + ":force_original_aspect_ratio=decrease," +
+                  "pad=" + width + ":" + height + ":(ow-iw)/2:(oh-ih)/2," +
+                  buildSubtitleFilter(escapedSrt, fontSize, marginV)
+                : buildSubtitleFilter(escapedSrt, fontSize, marginV);
 
         hardcodeCommand.add("-vf");
-        hardcodeCommand.add(buildSubtitleFilter(escapedSrt, fontSize, marginV));
+        hardcodeCommand.add(filters);
 
         hardcodeCommand.add("-c:v");
         hardcodeCommand.add(encoderId);
