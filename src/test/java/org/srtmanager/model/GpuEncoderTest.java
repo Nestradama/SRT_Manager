@@ -27,4 +27,13 @@ public class GpuEncoderTest {
         assertThat(firstEncoder).isNotEqualTo(wrongEncoder);
     }
 
+    @Test
+    void displayNameAddsRecommendedForGpuEncoders(){
+        GpuEncoder gpu = new GpuEncoder("h264_nvenc", "NVidia", true);
+        GpuEncoder cpu = new GpuEncoder("libx264", "libx264 H.264", false);
+
+        assertThat(gpu.displayName()).isEqualTo("h264_nvenc (Recommended)");
+        assertThat(cpu.displayName()).isEqualTo("libx264");
+    }
+
 }

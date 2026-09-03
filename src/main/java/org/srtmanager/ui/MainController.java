@@ -85,6 +85,16 @@ public class MainController implements EncodingJobListener {
         });
     }
 
+    static int[] resizeDimensions(String label) {
+        return switch (label) {
+            case "1080p" -> new int[]{1920, 1080};
+            case "720p"  -> new int[]{1280, 720};
+            case "480p"  -> new int[]{854, 480};
+            case "360p"  -> new int[]{640, 360};
+            default      -> new int[]{0, 0};
+        };
+    }
+
     @FXML
     private void onBrowseVideo(ActionEvent event) {
         FileChooser chooser = new FileChooser();
@@ -219,13 +229,9 @@ public class MainController implements EncodingJobListener {
     @FXML
     private void onResize(ActionEvent event) {
         String label = ((ToggleButton) event.getSource()).getText();
-        switch (label) {
-            case "1080p": resizeWidth = 1920; resizeHeight = 1080; break;
-            case "720p":  resizeWidth = 1280; resizeHeight = 720;  break;
-            case "480p":  resizeWidth = 854;  resizeHeight = 480;  break;
-            case "360p":  resizeWidth = 640;  resizeHeight = 360;  break;
-            default:      resizeWidth = 0;    resizeHeight = 0;    break; 
-        }
+        int[] dims = resizeDimensions(label);
+        resizeWidth = dims[0];
+        resizeHeight = dims[1];
         statusLabel.setText("Resize: " + label);
     }
 
