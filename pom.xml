@@ -69,7 +69,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.srtmanager.ui.UiApp</mainClass>
+                    <mainClass>org.srtmanager.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

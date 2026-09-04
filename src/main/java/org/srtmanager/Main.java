@@ -1,11 +1,10 @@
 package org.srtmanager;
 
-import org.srtmanager.cli.CliApp;
+import javafx.application.Application;
+import org.srtmanager.ui.UiApp;
 
 public class Main {
-    static void main(String[] args) {
-        CliApp.cliMode();
-            System.out.println("SRT Manager CLI");
-
-        }
+    public static void main(String[] args) {
+        Application.launch(UiApp.class, args);
     }
+}
